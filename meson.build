@@ -42,6 +42,9 @@ disable_libgcc_dependency = get_option('disable_libgcc_dependency')
 internal_conf = configuration_data()
 mlibc_conf = configuration_data()
 
+message('DISABLE LINUX?????')
+message(disable_linux_option)
+
 if not headers_only
 	cshim_dep = dependency('cshim',
 				required: false,
@@ -256,6 +259,11 @@ elif host_machine.system() == 'dripos'
 	rtld_include_dirs += include_directories('sysdeps/dripos/include')
 	libc_include_dirs += include_directories('sysdeps/dripos/include')
 	subdir('sysdeps/dripos')
+elif host_machine.system() == 'moonos'
+	disable_linux_option = true
+	rtld_include_dirs += include_directories('sysdeps/moonos/include')
+	libc_include_dirs += include_directories('sysdeps/moonos/include')
+	subdir('sysdeps/moonos')
 else
 	error('No sysdeps defined for OS: ' + host_machine.system())
 endif
